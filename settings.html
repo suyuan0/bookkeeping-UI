@@ -3,202 +3,349 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>设置 - 轻记账</title>
+    <title>财务记录 - 设置</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    <link rel="stylesheet" href="./css/style.css">
-    <link rel="stylesheet" href="./css/instagram-style.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.11.4/gsap.min.js"></script>
+    <style>
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
+            color: #262626;
+        }
+        .glass {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        }
+        .nav-icon {
+            font-size: 1.5rem;
+            color: #262626;
+        }
+        .nav-icon.active {
+            color: #0095f6;
+        }
+        .setting-item {
+            transition: all 0.3s ease;
+        }
+        .setting-item:hover {
+            transform: translateX(5px);
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #0095f6 0%, #5851DB 100%);
+            border-radius: 20px 20px 0 0;
+        }
+        .profile-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid white;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+            margin-top: -40px;
+        }
+        .toggle-switch {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 24px;
+        }
+        .toggle-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        .toggle-slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 24px;
+        }
+        .toggle-slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        input:checked + .toggle-slider {
+            background-color: #0095f6;
+        }
+        input:checked + .toggle-slider:before {
+            transform: translateX(26px);
+        }
+        .setting-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+        .account {
+            background: linear-gradient(135deg, #0095f6 0%, #5851DB 100%);
+        }
+        .notification {
+            background: linear-gradient(135deg, #FF9500 0%, #FF5E3A 100%);
+        }
+        .appearance {
+            background: linear-gradient(135deg, #5851DB 0%, #833AB4 100%);
+        }
+        .security {
+            background: linear-gradient(135deg, #4CD964 0%, #00C06D 100%);
+        }
+        .payment {
+            background: linear-gradient(135deg, #FF2D55 0%, #FF375F 100%);
+        }
+        .help {
+            background: linear-gradient(135deg, #007AFF 0%, #5AC8FA 100%);
+        }
+    </style>
 </head>
-<body class="min-h-screen">
-    <div class="container mx-auto px-4 py-6 max-w-md">
-        <!-- 顶部导航 -->
-        <div class="ins-card p-4 mb-6 flex items-center justify-between">
-            <a href="./index.html" class="text-gray-600">
-                <i class="fas fa-arrow-left"></i>
+<body class="min-h-screen pb-20">
+    <!-- 顶部导航栏 -->
+    <header class="glass sticky top-0 z-50 px-4 py-3 mb-4">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold">设置</h1>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="fas fa-question-circle nav-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4">
+        <!-- 个人资料卡片 -->
+        <div class="glass mb-6 rounded-xl overflow-hidden">
+            <div class="profile-header h-24"></div>
+            <div class="p-5 pt-0">
+                <div class="flex flex-col items-center">
+                    <div class="profile-avatar">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-1.2.1&auto=format&fit=crop&w=334&q=80" alt="用户头像" class="w-full h-full object-cover">
+                    </div>
+                    <h2 class="text-xl font-bold mt-2">张小明</h2>
+                    <p class="text-gray-500 text-sm">xiaoming@example.com</p>
+                    <button class="mt-3 px-4 py-2 bg-blue-500 text-white rounded-full text-sm font-medium hover:bg-blue-600 transition">编辑个人资料</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 设置选项 -->
+        <div class="space-y-4">
+            <!-- 账户设置 -->
+            <div class="glass p-4 rounded-xl setting-item">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="setting-icon account mr-3">
+                            <i class="fas fa-user"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">账户设置</h4>
+                            <p class="text-xs text-gray-500">个人信息、邮箱、手机号</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- 通知设置 -->
+            <div class="glass p-4 rounded-xl setting-item">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="setting-icon notification mr-3">
+                            <i class="fas fa-bell"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">通知设置</h4>
+                            <p class="text-xs text-gray-500">推送通知、提醒、邮件</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- 外观设置 -->
+            <div class="glass p-4 rounded-xl setting-item">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="setting-icon appearance mr-3">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">外观设置</h4>
+                            <p class="text-xs text-gray-500">主题、颜色、字体大小</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- 安全设置 -->
+            <div class="glass p-4 rounded-xl setting-item">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="setting-icon security mr-3">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">安全设置</h4>
+                            <p class="text-xs text-gray-500">密码、登录验证、隐私</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- 支付方式 -->
+            <div class="glass p-4 rounded-xl setting-item">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="setting-icon payment mr-3">
+                            <i class="fas fa-credit-card"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">支付方式</h4>
+                            <p class="text-xs text-gray-500">银行卡、支付宝、微信支付</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+
+            <!-- 帮助与支持 -->
+            <div class="glass p-4 rounded-xl setting-item">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <div class="setting-icon help mr-3">
+                            <i class="fas fa-question"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-medium">帮助与支持</h4>
+                            <p class="text-xs text-gray-500">常见问题、联系我们</p>
+                        </div>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 其他选项 -->
+        <div class="mt-6 space-y-4">
+            <div class="glass p-4 rounded-xl">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="font-medium">深色模式</h4>
+                        <p class="text-xs text-gray-500">切换应用的显示主题</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox">
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded-xl">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="font-medium">生物识别登录</h4>
+                        <p class="text-xs text-gray-500">使用指纹或面容ID登录</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+
+            <div class="glass p-4 rounded-xl">
+                <div class="flex justify-between items-center">
+                    <div>
+                        <h4 class="font-medium">自动记账提醒</h4>
+                        <p class="text-xs text-gray-500">每日提醒记录消费</p>
+                    </div>
+                    <label class="toggle-switch">
+                        <input type="checkbox" checked>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 退出登录按钮 -->
+        <div class="mt-8 mb-4">
+            <button class="w-full py-3 text-center text-red-500 font-medium glass rounded-xl hover:bg-red-50 transition">
+                退出登录
+            </button>
+        </div>
+
+        <!-- 版本信息 -->
+        <div class="text-center text-xs text-gray-400 mb-6">
+            <p>版本 1.0.0</p>
+            <p class="mt-1">© 2023 财务记录 App</p>
+        </div>
+    </main>
+
+    <!-- 底部导航 -->
+    <nav class="glass fixed bottom-0 left-0 right-0 px-6 py-3">
+        <div class="flex justify-between items-center">
+            <a href="index.html" class="flex flex-col items-center">
+                <i class="fas fa-home nav-icon"></i>
+                <span class="text-xs mt-1">首页</span>
             </a>
-            <h1 class="text-xl font-bold text-gray-800">设置</h1>
-            <div class="w-6"></div> <!-- 占位元素，保持标题居中 -->
-        </div>
-
-        <!-- 用户信息 -->
-        <div class="ins-card p-6 mb-6">
-            <div class="flex items-center">
-                <div class="w-16 h-16 rounded-full bg-gradient-to-r from-purple-400 via-pink-500 to-red-500 flex items-center justify-center text-white text-2xl font-bold mr-4">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div>
-                    <h2 class="text-lg font-semibold text-gray-800">用户名</h2>
-                    <p class="text-sm text-gray-500">点击修改个人信息</p>
-                </div>
-                <i class="fas fa-chevron-right ml-auto text-gray-400"></i>
+            <a href="transactions.html" class="flex flex-col items-center">
+                <i class="fas fa-exchange-alt nav-icon"></i>
+                <span class="text-xs mt-1">交易</span>
+            </a>
+            <div class="relative -mt-8">
+                <button class="w-14 h-14 rounded-full bg-blue-500 flex items-center justify-center shadow-lg">
+                    <i class="fas fa-plus text-white text-xl"></i>
+                </button>
             </div>
+            <a href="statistics.html" class="flex flex-col items-center">
+                <i class="fas fa-chart-pie nav-icon"></i>
+                <span class="text-xs mt-1">统计</span>
+            </a>
+            <a href="settings.html" class="flex flex-col items-center">
+                <i class="fas fa-cog nav-icon active"></i>
+                <span class="text-xs mt-1 text-blue-500">设置</span>
+            </a>
         </div>
+    </nav>
 
-        <!-- 常规设置 -->
-        <div class="glassmorphism rounded-xl p-4 mb-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4 px-2">常规设置</h2>
-            
-            <div class="space-y-4">
-                <!-- 货币单位 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-yen-sign text-blue-500"></i>
-                        </div>
-                        <span class="text-gray-700">货币单位</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-gray-500 mr-2">人民币 (¥)</span>
-                        <i class="fas fa-chevron-right text-gray-400"></i>
-                    </div>
-                </div>
-                
-                <!-- 预算提醒 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-bell text-green-500"></i>
-                        </div>
-                        <span class="text-gray-700">预算提醒</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-gray-500 mr-2">已开启</span>
-                        <i class="fas fa-chevron-right text-gray-400"></i>
-                    </div>
-                </div>
-                
-                <!-- 数据备份 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-cloud-upload-alt text-purple-500"></i>
-                        </div>
-                        <span class="text-gray-700">数据备份</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-gray-500 mr-2">自动</span>
-                        <i class="fas fa-chevron-right text-gray-400"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- 分类管理 -->
-        <div class="glassmorphism rounded-xl p-4 mb-6">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4 px-2">分类管理</h2>
-            
-            <div class="space-y-4">
-                <!-- 收入分类 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-green-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-plus text-green-500"></i>
-                        </div>
-                        <span class="text-gray-700">收入分类</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-400"></i>
-                </div>
-                
-                <!-- 支出分类 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-minus text-red-500"></i>
-                        </div>
-                        <span class="text-gray-700">支出分类</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-400"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- 其他设置 -->
-        <div class="glassmorphism rounded-xl p-4 mb-20">
-            <h2 class="text-lg font-semibold text-gray-800 mb-4 px-2">其他设置</h2>
-            
-            <div class="space-y-4">
-                <!-- 主题设置 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-yellow-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-palette text-yellow-500"></i>
-                        </div>
-                        <span class="text-gray-700">主题设置</span>
-                    </div>
-                    <div class="flex items-center">
-                        <span class="text-gray-500 mr-2">默认</span>
-                        <i class="fas fa-chevron-right text-gray-400"></i>
-                    </div>
-                </div>
-                
-                <!-- 关于我们 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-blue-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-info-circle text-blue-500"></i>
-                        </div>
-                        <span class="text-gray-700">关于我们</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-400"></i>
-                </div>
-                
-                <!-- 意见反馈 -->
-                <div class="flex items-center justify-between p-2 hover:bg-gray-50 hover:bg-opacity-50 rounded-lg">
-                    <div class="flex items-center">
-                        <div class="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center mr-3">
-                            <i class="fas fa-comment-alt text-purple-500"></i>
-                        </div>
-                        <span class="text-gray-700">意见反馈</span>
-                    </div>
-                    <i class="fas fa-chevron-right text-gray-400"></i>
-                </div>
-            </div>
-        </div>
-
-        <!-- 底部导航 -->
-        <div class="fixed bottom-0 left-0 right-0 ins-nav py-3 px-6">
-            <div class="flex justify-around max-w-md mx-auto">
-                <a href="./index.html" class="flex flex-col items-center text-gray-500">
-                    <i class="fas fa-home text-xl"></i>
-                    <span class="text-xs mt-1">首页</span>
-                </a>
-                <a href="./transactions.html" class="flex flex-col items-center text-gray-500">
-                    <i class="fas fa-list text-xl"></i>
-                    <span class="text-xs mt-1">记录</span>
-                </a>
-                <a href="./statistics.html" class="flex flex-col items-center text-gray-500">
-                    <i class="fas fa-chart-pie text-xl"></i>
-                    <span class="text-xs mt-1">统计</span>
-                </a>
-                <a href="./settings.html" class="flex flex-col items-center text-blue-600">
-                    <i class="fas fa-cog text-xl"></i>
-                    <span class="text-xs mt-1">设置</span>
-                </a>
-            </div>
-        </div>
-    </div>
-
-    <script src="./js/app.js"></script>
-    <script src="./js/theme.js"></script>
     <script>
-        // GSAP动画效果
+        // 简单的交互效果
         document.addEventListener('DOMContentLoaded', function() {
-            // 顶部导航动画
-            gsap.from('.ins-card:first-child', {duration: 0.6, y: -20, opacity: 0, ease: 'power3.out'});
-            
-            // 用户信息卡片动画
-            gsap.from('.ins-card:nth-child(2)', {duration: 0.6, scale: 0.95, opacity: 0, delay: 0.2, ease: 'power2.out'});
-            
-            // 设置项目动画
             const settingItems = document.querySelectorAll('.setting-item');
-            settingItems.forEach((item, index) => {
-                gsap.from(item, {duration: 0.4, x: -20, opacity: 0, delay: 0.3 + (index * 0.1), ease: 'power2.out'});
+            settingItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    // 这里可以添加点击设置项的交互
+                    console.log('设置详情');
+                });
             });
-            
-            // 底部导航动画
-            gsap.from('.ins-nav', {duration: 0.6, y: 20, opacity: 0, delay: 0.5, ease: 'power2.out'});
+
+            const toggleSwitches = document.querySelectorAll('.toggle-switch input');
+            toggleSwitches.forEach(toggle => {
+                toggle.addEventListener('change', function() {
+                    // 这里可以添加切换开关的交互
+                    console.log('切换设置: ' + this.checked);
+                });
+            });
         });
     </script>
 </body>
 </html>
+<xaiArtifact artifact_id="550e8400-e29b-41d4-a716-446655440003" title="Instagram风格记账软件设置页" contentType="text/html"></xaiArtifact>

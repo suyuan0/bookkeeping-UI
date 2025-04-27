@@ -1,0 +1,72 @@
+/* iPhone 14 Pro 适配样式 */
+:root {
+    --safe-area-inset-top: env(safe-area-inset-top, 47px);
+    --safe-area-inset-bottom: env(safe-area-inset-bottom, 34px);
+    --safe-area-inset-left: env(safe-area-inset-left, 0px);
+    --safe-area-inset-right: env(safe-area-inset-right, 0px);
+}
+
+/* 基础样式适配 */
+body {
+    /* iPhone 14 Pro 尺寸 */
+    width: 393px;
+    height: 852px;
+    margin: 0 auto;
+    position: relative;
+    overflow-x: hidden;
+    /* 安全区域适配 */
+    padding-top: var(--safe-area-inset-top);
+    padding-bottom: var(--safe-area-inset-bottom);
+    padding-left: var(--safe-area-inset-left);
+    padding-right: var(--safe-area-inset-right);
+}
+
+/* 安全区域底部适配 */
+.safe-bottom {
+    padding-bottom: calc(var(--safe-area-inset-bottom) + 1.5rem);
+}
+
+/* 动态岛适配 */
+.dynamic-island-padding {
+    padding-top: 47px;
+}
+
+/* 底部导航适配 */
+.nav-bottom {
+    bottom: calc(var(--safe-area-inset-bottom) + 0.5rem);
+}
+
+/* 毛玻璃效果增强 */
+.glass-enhanced {
+    background: rgba(255, 255, 255, 0.65);
+    backdrop-filter: blur(15px);
+    -webkit-backdrop-filter: blur(15px);
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+}
+
+/* 深色模式下的毛玻璃效果增强 */
+body.dark-mode .glass-enhanced {
+    background: rgba(30, 30, 30, 0.65);
+    border: 1px solid rgba(50, 50, 50, 0.18);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+}
+
+/* 响应式调整 */
+@media (max-width: 393px) {
+    body {
+        width: 100%;
+    }
+}
+
+/* 动画效果 */
+.ios-transition {
+    transition: all 0.35s cubic-bezier(0.28, 0.11, 0.32, 1);
+}
+
+/* 触感反馈效果 */
+.touch-feedback:active {
+    transform: scale(0.96);
+    opacity: 0.8;
+}

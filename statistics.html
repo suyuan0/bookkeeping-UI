@@ -12,6 +12,13 @@
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
             color: #262626;
+            transition: all 0.3s ease;
+        }
+        
+        /* 深色模式样式 */
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #f0f0f0;
         }
         .glass {
             background: rgba(255, 255, 255, 0.7);
@@ -20,10 +27,68 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.18);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        /* 深色模式下的毛玻璃效果 */
+        body.dark-mode .glass {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(50, 50, 50, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 深色模式下的文本颜色 */
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .text-gray-500 {
+            color: #a0a0a0;
+        }
+        
+        body.dark-mode .text-gray-400 {
+            color: #b0b0b0;
+        }
+        
+        /* 深色模式下的悬停效果 */
+        body.dark-mode .hover\:bg-gray-100:hover {
+            background-color: rgba(50, 50, 50, 0.7) !important;
+        }
+        
+        /* 深色模式下的按钮和卡片样式 */
+        body.dark-mode .bg-blue-500 {
+            background-color: #1a91ff;
+        }
+        
+        body.dark-mode .text-blue-500 {
+            color: #1a91ff;
+        }
+        
+        body.dark-mode .text-red-500 {
+            color: #ff4d4d;
+        }
+        
+        body.dark-mode .text-green-500 {
+            color: #4cd964;
+        }
+        
+        /* 深色模式下的图表和进度条样式 */
+        body.dark-mode .progress-ring__background {
+            stroke: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-mode .bg-gray-200 {
+            background-color: rgba(255, 255, 255, 0.1);
         }
         .nav-icon {
             font-size: 1.5rem;
             color: #262626;
+            transition: color 0.3s ease;
+        }
+        
+        /* 深色模式下的导航图标 */
+        body.dark-mode .nav-icon {
+            color: #e0e0e0;
         }
         .nav-icon.active {
             color: #0095f6;
@@ -332,13 +397,15 @@
 
     <script>
         // 支出趋势图表
+        let expenseChart;
+        
         document.addEventListener('DOMContentLoaded', function() {
             const ctx = document.getElementById('expenseChart').getContext('2d');
             const gradient = ctx.createLinearGradient(0, 0, 0, 200);
             gradient.addColorStop(0, 'rgba(0, 149, 246, 0.5)');
             gradient.addColorStop(1, 'rgba(0, 149, 246, 0.0)');
             
-            const expenseChart = new Chart(ctx, {
+            expenseChart = new Chart(ctx, {
                 type: 'line',
                 data: {
                     labels: ['1日', '5日', '10日', '15日', '20日', '25日', '30日'],
@@ -425,7 +492,56 @@
                     this.classList.remove('text-gray-500');
                 });
             });
+            
+            // 检查本地存储中的深色模式设置
+            if (localStorage.getItem('darkMode') === 'enabled') {
+                document.body.classList.add('dark-mode');
+                updateChartsForDarkMode();
+            }
         });
+        
+        // 从其他页面切换回来时保持深色模式状态
+        window.addEventListener('storage', function(event) {
+            if (event.key === 'darkMode') {
+                if (event.newValue === 'enabled') {
+                    document.body.classList.add('dark-mode');
+                    updateChartsForDarkMode();
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    updateChartsForLightMode();
+                }
+            }
+        });
+        
+        // 更新图表以适应深色模式
+        function updateChartsForDarkMode() {
+            if (expenseChart) {
+                expenseChart.options.plugins.tooltip.backgroundColor = 'rgba(30, 30, 30, 0.9)';
+                expenseChart.options.plugins.tooltip.titleColor = '#f0f0f0';
+                expenseChart.options.plugins.tooltip.bodyColor = '#f0f0f0';
+                expenseChart.options.plugins.tooltip.borderColor = 'rgba(255, 255, 255, 0.2)';
+                expenseChart.options.scales.x.grid.color = 'rgba(255, 255, 255, 0.1)';
+                expenseChart.options.scales.y.grid.color = 'rgba(255, 255, 255, 0.1)';
+                expenseChart.options.scales.x.ticks.color = '#a0a0a0';
+                expenseChart.options.scales.y.ticks.color = '#a0a0a0';
+                expenseChart.update();
+            }
+        }
+        
+        // 更新图表以适应浅色模式
+        function updateChartsForLightMode() {
+            if (expenseChart) {
+                expenseChart.options.plugins.tooltip.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                expenseChart.options.plugins.tooltip.titleColor = '#262626';
+                expenseChart.options.plugins.tooltip.bodyColor = '#262626';
+                expenseChart.options.plugins.tooltip.borderColor = 'rgba(0, 0, 0, 0.1)';
+                expenseChart.options.scales.x.grid.color = 'rgba(0, 0, 0, 0.05)';
+                expenseChart.options.scales.y.grid.color = 'rgba(0, 0, 0, 0.05)';
+                expenseChart.options.scales.x.ticks.color = '#8e8e8e';
+                expenseChart.options.scales.y.ticks.color = '#8e8e8e';
+                expenseChart.update();
+            }
+        }
     </script>
 </body>
 </html>

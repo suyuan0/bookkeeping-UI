@@ -11,6 +11,13 @@
             font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
             background: linear-gradient(135deg, #f9f9f9 0%, #f0f0f0 100%);
             color: #262626;
+            transition: all 0.3s ease;
+        }
+        
+        /* 深色模式样式 */
+        body.dark-mode {
+            background: linear-gradient(135deg, #121212 0%, #1e1e1e 100%);
+            color: #f0f0f0;
         }
         .glass {
             background: rgba(255, 255, 255, 0.7);
@@ -19,12 +26,73 @@
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.18);
             box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        /* 深色模式下的毛玻璃效果 */
+        body.dark-mode .glass {
+            background: rgba(30, 30, 30, 0.7);
+            border: 1px solid rgba(50, 50, 50, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        /* 深色模式下的文本颜色 */
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: #f0f0f0;
+        }
+        
+        body.dark-mode .text-gray-500 {
+            color: #a0a0a0;
+        }
+        
+        body.dark-mode .text-gray-400 {
+            color: #b0b0b0;
+        }
+        
+        /* 深色模式下的悬停效果 */
+        body.dark-mode .setting-item:hover {
+            background: rgba(40, 40, 40, 0.7);
+        }
+        
+        body.dark-mode .hover\:bg-gray-100:hover {
+            background-color: rgba(50, 50, 50, 0.7) !important;
+        }
+        
+        body.dark-mode .hover\:bg-red-50:hover {
+            background-color: rgba(80, 30, 30, 0.7) !important;
+        }
+        
+        /* 深色模式下的按钮和卡片样式 */
+        body.dark-mode .bg-blue-500 {
+            background-color: #1a91ff;
+        }
+        
+        body.dark-mode .text-blue-500 {
+            color: #1a91ff;
+        }
+        
+        body.dark-mode .text-red-500 {
+            color: #ff4d4d;
+        }
+        
+        /* 深色模式下保持个人资料卡片的渐变背景 */
+        body.dark-mode .profile-header {
+            background: linear-gradient(135deg, #0077c2 0%, #4a3da9 100%);
         }
         .nav-icon {
             font-size: 1.5rem;
             color: #262626;
+            transition: color 0.3s ease;
         }
         .nav-icon.active {
+            color: #0095f6;
+        }
+        
+        /* 深色模式下的导航图标 */
+        body.dark-mode .nav-icon {
+            color: #e0e0e0;
+        }
+        body.dark-mode .nav-icon.active {
             color: #0095f6;
         }
         .setting-item {
@@ -337,10 +405,36 @@
                 });
             });
 
-            const toggleSwitches = document.querySelectorAll('.toggle-switch input');
-            toggleSwitches.forEach(toggle => {
+            // 获取深色模式开关元素
+            const darkModeToggle = document.querySelector('.toggle-switch input');
+            
+            // 从本地存储中获取深色模式设置
+            const isDarkMode = localStorage.getItem('darkMode') === 'true';
+            
+            // 根据存储的设置应用深色模式
+            if (isDarkMode) {
+                document.body.classList.add('dark-mode');
+                darkModeToggle.checked = true;
+            }
+            
+            // 监听深色模式开关的变化
+            darkModeToggle.addEventListener('change', function() {
+                if (this.checked) {
+                    // 启用深色模式
+                    document.body.classList.add('dark-mode');
+                    localStorage.setItem('darkMode', 'true');
+                } else {
+                    // 禁用深色模式
+                    document.body.classList.remove('dark-mode');
+                    localStorage.setItem('darkMode', 'false');
+                }
+                console.log('深色模式: ' + this.checked);
+            });
+            
+            // 处理其他开关
+            const otherToggles = document.querySelectorAll('.toggle-switch input:not(:first-child)');
+            otherToggles.forEach(toggle => {
                 toggle.addEventListener('change', function() {
-                    // 这里可以添加切换开关的交互
                     console.log('切换设置: ' + this.checked);
                 });
             });

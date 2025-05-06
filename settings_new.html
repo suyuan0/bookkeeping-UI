@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>记账应用 - 设置</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0095f6;
+            --secondary-color: #5851DB;
+            --accent-color: #4CD964;
+            --background-light: #f9f9f9;
+            --background-dark: #121212;
+            --text-light: #262626;
+            --text-dark: #f0f0f0;
+            --card-light: rgba(255, 255, 255, 0.7);
+            --card-dark: rgba(30, 30, 30, 0.7);
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--background-light) 0%, #f0f0f0 100%);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            width: 393px;
+            height: 852px;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(135deg, var(--background-dark) 0%, #1e1e1e 100%);
+            color: var(--text-dark);
+        }
+        
+        .glass {
+            background: var(--card-light);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .glass {
+            background: var(--card-dark);
+            border: 1px solid rgba(50, 50, 50, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: var(--text-dark);
+        }
+        
+        body.dark-mode .text-gray-500 {
+            color: #a0a0a0;
+        }
+        
+        body.dark-mode .text-gray-400 {
+            color: #b0b0b0;
+        }
+        
+        .nav-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        
+        body.dark-mode .nav-icon {
+            color: var(--text-dark);
+        }
+        
+        .nav-icon.active {
+            color: var(--primary-color);
+        }
+        
+        .bottom-nav {
+            background: var(--card-light);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 -4px 16px 0 rgba(31, 38, 135, 0.1);
+        }
+        
+        body.dark-mode .bottom-nav {
+            background: var(--card-dark);
+            border: 1px solid rgba(50, 50, 50, 0.18);
+            box-shadow: 0 -4px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .add-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.8rem;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .add-button:hover {
+            transform: translateY(-25px) scale(1.05);
+        }
+        
+        .setting-item {
+            transition: all 0.3s ease;
+        }
+        
+        .setting-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-mode .setting-item:hover {
+            background: rgba(40, 40, 40, 0.7);
+        }
+        
+        .toggle {
+            position: relative;
+            display: inline-block;
+            width: 50px;
+            height: 28px;
+        }
+        
+        .toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+        
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+        
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 20px;
+            width: 20px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+        
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+        
+        input:checked + .slider:before {
+            transform: translateX(22px);
+        }
+        
+        .avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 2rem;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+        }
+        
+        .avatar img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-24 safe-bottom">
+    <!-- 顶部导航栏 -->
+    <header class="glass sticky top-0 z-50 px-5 py-4 mb-5">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold">设置</h1>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800" id="theme-toggle">
+                    <i class="fas fa-moon nav-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-5">
+        <!-- 用户信息 -->
+        <div class="glass p-5 rounded-xl mb-6">
+            <div class="flex items-center">
+                <div class="avatar mr-4">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div>
+                    <h3 class="text-xl font-semibold">张小明</h3>
+                    <p class="text-sm text-gray-500">xiaoming@example.com</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 账户设置 -->
+        <div class="glass rounded-xl overflow-hidden mb-6">
+            <h3 class="text-lg font-semibold p-5 pb-2">账户设置</h3>
+            
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-circle text-blue-500 mr-3 text-xl"></i>
+                        <span>个人信息</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-lock text-blue-500 mr-3 text-xl"></i>
+                        <span>安全设置</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-bell text-blue-500 mr-3 text-xl"></i>
+                        <span>通知设置</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+        </div>
+
+        <!-- 应用设置 -->
+        <div class="glass rounded-xl overflow-hidden mb-6">
+            <h3 class="text-lg font-semibold p-5 pb-2">应用设置</h3>
+            
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-moon text-purple-500 mr-3 text-xl"></i>
+                        <span>深色模式</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" id="dark-mode-toggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-language text-green-500 mr-3 text-xl"></i>
+                        <span>语言</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">简体中文</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-money-bill-wave text-yellow-500 mr-3 text-xl"></i>
+                        <span>货币</span>
+                    </div>
+                    <div class="flex items-center">
+                        <span class="text-gray-500 mr-2">人民币 (¥)</span>
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 预算设置 -->
+        <div class="glass rounded-xl overflow-hidden mb-6">
+            <h3 class="text-lg font-semibold p-5 pb-2">预算设置</h3>
+            
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-chart-line text-red-500 mr-3 text-xl"></i>
+                        <span>月度预算</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-exclamation-circle text-orange-500 mr-3 text-xl"></i>
+                        <span>预算提醒</span>
+                    </div>
+                    <label class="toggle">
+                        <input type="checkbox" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <!-- 其他选项 -->
+        <div class="glass rounded-xl overflow-hidden mb-6">
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-question-circle text-blue-500 mr-3 text-xl"></i>
+                        <span>帮助与反馈</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5 border-b border-gray-100 dark:border-gray-800">
+                <div class="flex justify-between items-center">
+                    <div class="flex items-center">
+                        <i class="fas fa-info-circle text-blue-500 mr-3 text-xl"></i>
+                        <span>关于我们</span>
+                    </div>
+                    <i class="fas fa-chevron-right text-gray-400"></i>
+                </div>
+            </div>
+            
+            <div class="setting-item p-5">
+                <div class="flex items-center">
+                    <i class="fas fa-sign-out-alt text-red-500 mr-3 text-xl"></i>
+                    <span class="text-red-500">退出登录</span>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-50 px-6 py-2 flex justify-around items-center safe-bottom">
+        <a href="home_new.html" class="flex flex-col items-center p-2">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">首页</span>
+        </a>
+        <a href="statistics_new.html" class="flex flex-col items-center p-2">
+            <i class="fas fa-chart-pie nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">统计</span>
+        </a>
+        <div class="relative flex justify-center">
+            <button class="add-button">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <a href="transaction_new.html" class="flex flex-col items-center p-2">
+            <i class="fas fa-exchange-alt nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">交易</span>
+        </a>
+        <a href="#" class="flex flex-col items-center p-2">
+            <i class="fas fa-cog nav-icon active"></i>
+            <span class="text-xs mt-1 text-blue-500">设置</span>
+        </a>
+    </nav>
+
+    <script>
+        // 深色模式切换
+        const themeToggle = document.getElementById('theme-toggle');
+        const darkModeToggle = document.getElementById('dark-mode-toggle');
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        // 初始化深色模式状态
+        if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+            themeToggle.innerHTML = '<i class="fas fa-sun nav-icon"></i>';
+            darkModeToggle.checked = true;
+        }
+        
+        // 顶部导航栏深色模式切换按钮
+        themeToggle.addEventListener('click', () => {
+            toggleDarkMode();
+        });
+        
+        // 设置中的深色模式开关
+        darkModeToggle.addEventListener('change', () => {
+            toggleDarkMode();
+        });
+        
+        function toggleDarkMode() {
+            document.body.classList.toggle('dark-mode');
+            
+            if (document.body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun nav-icon"></i>';
+                darkModeToggle.checked = true;
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon nav-icon"></i>';
+                darkModeToggle.checked = false;
+            }
+        }
+    </script>
+</body>
+</html>
+<xaiArtifact artifact_id="550e8400-e29b-41d4-a716-446655440003" title="记账应用设置页" contentType="text/html"></xaiArtifact>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>记账应用 - 交易记录</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2ecc71;
+            --background-light: #f8f9fa;
+            --text-light: #333333;
+            --text-dark: #f0f0f0;
+            --card-light: rgba(255, 255, 255, 0.8);
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background-color: var(--background-light);
+            color: var(--text-light);
+            width: 393px;
+            height: 852px;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        .glass {
+            background: var(--card-light);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+        
+        .nav-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+        }
+        
+        .tab-active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .transaction-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.25rem;
+            color: white;
+        }
+        
+        .income { background-color: var(--secondary-color); }
+        .expense { background-color: var(--primary-color); }
+    </style>
+</head>
+<body class="min-h-screen pb-20">
+    <!-- 顶部导航栏 -->
+    <header class="glass sticky top-0 z-50 px-5 py-4 mb-5">
+        <div class="flex justify-between items-center">
+            <h1 class="text-xl font-bold">交易记录</h1>
+            <div class="flex items-center space-x-3">
+                <button class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="fas fa-search nav-icon text-gray-600"></i>
+                </button>
+                <button class="p-2 rounded-full hover:bg-gray-100">
+                    <i class="fas fa-filter nav-icon text-gray-600"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-5">
+        <!-- 标签页 -->
+        <div class="flex justify-around mb-6">
+            <button class="py-2 px-4 tab-active font-medium">全部</button>
+            <button class="py-2 px-4 text-gray-500 font-medium">收入</button>
+            <button class="py-2 px-4 text-gray-500 font-medium">支出</button>
+        </div>
+        
+        <!-- 日期分组 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-sm font-medium text-gray-500">今天</h2>
+                <span class="text-xs text-gray-500">支出: ¥163.50</span>
+            </div>
+            
+            <!-- 交易列表 -->
+            <div class="glass p-4 mb-4">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">午餐</p>
+                                <p class="text-xs text-gray-500">12:30 · 餐饮</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥35.50</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-coffee"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">下午茶</p>
+                                <p class="text-xs text-gray-500">15:45 · 餐饮</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥28.00</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-bus"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">公交车</p>
+                                <p class="text-xs text-gray-500">08:15 · 交通</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥2.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 昨天 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-sm font-medium text-gray-500">昨天</h2>
+                <span class="text-xs text-gray-500">收入: ¥5,280.00 | 支出: ¥428.00</span>
+            </div>
+            
+            <!-- 交易列表 -->
+            <div class="glass p-4 mb-4">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon income mr-3">
+                                <i class="fas fa-money-bill-wave"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">工资</p>
+                                <p class="text-xs text-gray-500">09:15 · 收入</p>
+                            </div>
+                        </div>
+                        <p class="text-green-500 font-medium">+¥5,280.00</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">超市购物</p>
+                                <p class="text-xs text-gray-500">18:45 · 购物</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥128.00</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">晚餐</p>
+                                <p class="text-xs text-gray-500">19:30 · 餐饮</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥68.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 本周 -->
+        <div class="mb-6">
+            <div class="flex justify-between items-center mb-3">
+                <h2 class="text-sm font-medium text-gray-500">本周</h2>
+                <span class="text-xs text-gray-500">支出: ¥1,245.50</span>
+            </div>
+            
+            <!-- 交易列表 -->
+            <div class="glass p-4">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-tshirt"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">服装</p>
+                                <p class="text-xs text-gray-500">周一 · 购物</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥299.00</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">电影票</p>
+                                <p class="text-xs text-gray-500">周日 · 娱乐</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥80.00</p>
+                    </div>
+                    
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="transaction-icon expense mr-3">
+                                <i class="fas fa-book"></i>
+                            </div>
+                            <div>
+                                <p class="font-medium">书籍</p>
+                                <p class="text-xs text-gray-500">周二 · 教育</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥58.00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="fixed bottom-0 left-0 right-0 glass py-2 px-5">
+        <div class="flex justify-around items-center">
+            <a href="home.html" class="flex flex-col items-center">
+                <i class="fas fa-home text-gray-500 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-500">首页</span>
+            </a>
+            <a href="transactions_new.html" class="flex flex-col items-center">
+                <i class="fas fa-list text-blue-500 text-xl"></i>
+                <span class="text-xs mt-1 text-blue-500">交易</span>
+            </a>
+            <div class="relative -mt-5">
+                <a href="add_transaction.html" class="flex items-center justify-center w-14 h-14 rounded-full bg-blue-500 text-white shadow-lg">
+                    <i class="fas fa-plus text-xl"></i>
+                </a>
+            </div>
+            <a href="statistics.html" class="flex flex-col items-center">
+                <i class="fas fa-chart-pie text-gray-500 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-500">统计</span>
+            </a>
+            <a href="settings.html" class="flex flex-col items-center">
+                <i class="fas fa-cog text-gray-500 text-xl"></i>
+                <span class="text-xs mt-1 text-gray-500">设置</span>
+            </a>
+        </div>
+    </nav>
+</body>
+</html>
+<xaiArtifact artifact_id="550e8400-e29b-41d4-a716-446655440001" title="记账应用交易记录页面" contentType="text/html"></xaiArtifact>

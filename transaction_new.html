@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <title>记账应用 - 交易记录</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #0095f6;
+            --secondary-color: #5851DB;
+            --accent-color: #4CD964;
+            --background-light: #f9f9f9;
+            --background-dark: #121212;
+            --text-light: #262626;
+            --text-dark: #f0f0f0;
+            --card-light: rgba(255, 255, 255, 0.7);
+            --card-dark: rgba(30, 30, 30, 0.7);
+        }
+        
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+            background: linear-gradient(135deg, var(--background-light) 0%, #f0f0f0 100%);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            width: 393px;
+            height: 852px;
+            margin: 0 auto;
+            position: relative;
+            overflow-x: hidden;
+        }
+        
+        body.dark-mode {
+            background: linear-gradient(135deg, var(--background-dark) 0%, #1e1e1e 100%);
+            color: var(--text-dark);
+        }
+        
+        .glass {
+            background: var(--card-light);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .glass {
+            background: var(--card-dark);
+            border: 1px solid rgba(50, 50, 50, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        }
+        
+        body.dark-mode h1, body.dark-mode h2, body.dark-mode h3, body.dark-mode h4 {
+            color: var(--text-dark);
+        }
+        
+        body.dark-mode .text-gray-500 {
+            color: #a0a0a0;
+        }
+        
+        body.dark-mode .text-gray-400 {
+            color: #b0b0b0;
+        }
+        
+        .nav-icon {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            transition: color 0.3s ease;
+        }
+        
+        body.dark-mode .nav-icon {
+            color: var(--text-dark);
+        }
+        
+        .nav-icon.active {
+            color: var(--primary-color);
+        }
+        
+        .category-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 1.2rem;
+            color: white;
+        }
+        
+        .food {
+            background: linear-gradient(135deg, #FF9500 0%, #FF5E3A 100%);
+        }
+        
+        .shopping {
+            background: linear-gradient(135deg, #5851DB 0%, #833AB4 100%);
+        }
+        
+        .transport {
+            background: linear-gradient(135deg, #4CD964 0%, #00C06D 100%);
+        }
+        
+        .entertainment {
+            background: linear-gradient(135deg, #FF2D55 0%, #FF375F 100%);
+        }
+        
+        .income {
+            background: linear-gradient(135deg, #34C759 0%, #30D158 100%);
+        }
+        
+        .transaction-item {
+            transition: all 0.3s ease;
+        }
+        
+        .transaction-item:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.1);
+        }
+        
+        body.dark-mode .transaction-item:hover {
+            background: rgba(40, 40, 40, 0.7);
+        }
+        
+        .tab-active {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+        }
+        
+        .date-divider {
+            position: relative;
+            text-align: center;
+            margin: 20px 0;
+        }
+        
+        .date-divider:before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: rgba(0, 0, 0, 0.1);
+            z-index: -1;
+        }
+        
+        .date-divider span {
+            background-color: var(--background-light);
+            padding: 0 15px;
+            font-size: 0.85rem;
+            color: #8e8e8e;
+            transition: all 0.3s ease;
+        }
+        
+        body.dark-mode .date-divider span {
+            background-color: var(--background-dark);
+            color: #a0a0a0;
+        }
+        
+        body.dark-mode .date-divider:before {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+        
+        .bottom-nav {
+            background: var(--card-light);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.18);
+            box-shadow: 0 -4px 16px 0 rgba(31, 38, 135, 0.1);
+        }
+        
+        body.dark-mode .bottom-nav {
+            background: var(--card-dark);
+            border: 1px solid rgba(50, 50, 50, 0.18);
+            box-shadow: 0 -4px 16px 0 rgba(0, 0, 0, 0.2);
+        }
+        
+        .add-button {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-size: 1.8rem;
+            transform: translateY(-20px);
+            transition: all 0.3s ease;
+        }
+        
+        .add-button:hover {
+            transform: translateY(-25px) scale(1.05);
+        }
+    </style>
+</head>
+<body class="min-h-screen pb-24 safe-bottom">
+    <!-- 顶部导航栏 -->
+    <header class="glass sticky top-0 z-50 px-5 py-4 mb-5">
+        <div class="flex justify-between items-center">
+            <h1 class="text-2xl font-bold">交易记录</h1>
+            <div class="flex items-center space-x-4">
+                <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-search nav-icon"></i>
+                </button>
+                <button class="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800">
+                    <i class="fas fa-filter nav-icon"></i>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-5">
+        <!-- 标签切换 -->
+        <div class="glass mb-6 rounded-xl overflow-hidden">
+            <div class="flex justify-between">
+                <button class="flex-1 py-3 text-center tab-active font-medium">全部</button>
+                <button class="flex-1 py-3 text-center text-gray-500 font-medium">支出</button>
+                <button class="flex-1 py-3 text-center text-gray-500 font-medium">收入</button>
+            </div>
+        </div>
+
+        <!-- 月度摘要 -->
+        <div class="glass p-5 rounded-xl mb-6">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="text-lg font-semibold">6月摘要</h3>
+                <div class="flex items-center">
+                    <button class="p-1 mr-2">
+                        <i class="fas fa-chevron-left text-gray-400"></i>
+                    </button>
+                    <span class="text-sm font-medium">6月</span>
+                    <button class="p-1 ml-2">
+                        <i class="fas fa-chevron-right text-gray-400"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="flex justify-between mb-4">
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">收入</p>
+                    <p class="text-lg font-semibold text-green-500">¥8,650.00</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">支出</p>
+                    <p class="text-lg font-semibold text-red-500">¥2,619.25</p>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 mb-1">结余</p>
+                    <p class="text-lg font-semibold">¥6,030.75</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 交易列表 -->
+        <div class="mb-6">
+            <!-- 今天 -->
+            <div class="date-divider">
+                <span>今天</span>
+            </div>
+            
+            <div class="glass rounded-xl overflow-hidden mb-4">
+                <div class="transaction-item p-4 border-b border-gray-100 dark:border-gray-800">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon food mr-3">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">午餐</h4>
+                                <p class="text-xs text-gray-500">12:30</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥38.50</p>
+                    </div>
+                </div>
+                <div class="transaction-item p-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon transport mr-3">
+                                <i class="fas fa-subway"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">地铁</h4>
+                                <p class="text-xs text-gray-500">09:15</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥7.00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 昨天 -->
+            <div class="date-divider">
+                <span>昨天</span>
+            </div>
+            
+            <div class="glass rounded-xl overflow-hidden mb-4">
+                <div class="transaction-item p-4 border-b border-gray-100 dark:border-gray-800">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon shopping mr-3">
+                                <i class="fas fa-shopping-bag"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">超市购物</h4>
+                                <p class="text-xs text-gray-500">18:45</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥156.80</p>
+                    </div>
+                </div>
+                <div class="transaction-item p-4 border-b border-gray-100 dark:border-gray-800">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon entertainment mr-3">
+                                <i class="fas fa-film"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">电影票</h4>
+                                <p class="text-xs text-gray-500">20:30</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥49.90</p>
+                    </div>
+                </div>
+                <div class="transaction-item p-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon income mr-3">
+                                <i class="fas fa-wallet"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">工资</h4>
+                                <p class="text-xs text-gray-500">10:00</p>
+                            </div>
+                        </div>
+                        <p class="text-green-500 font-medium">+¥8,650.00</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- 6月20日 -->
+            <div class="date-divider">
+                <span>6月20日</span>
+            </div>
+            
+            <div class="glass rounded-xl overflow-hidden">
+                <div class="transaction-item p-4 border-b border-gray-100 dark:border-gray-800">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon food mr-3">
+                                <i class="fas fa-utensils"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">晚餐</h4>
+                                <p class="text-xs text-gray-500">19:20</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥68.00</p>
+                    </div>
+                </div>
+                <div class="transaction-item p-4">
+                    <div class="flex justify-between items-center">
+                        <div class="flex items-center">
+                            <div class="category-icon transport mr-3">
+                                <i class="fas fa-car"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-medium">打车</h4>
+                                <p class="text-xs text-gray-500">21:45</p>
+                            </div>
+                        </div>
+                        <p class="text-red-500 font-medium">-¥32.50</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- 底部导航栏 -->
+    <nav class="bottom-nav fixed bottom-0 left-0 right-0 z-50 px-6 py-2 flex justify-around items-center safe-bottom">
+        <a href="home_new.html" class="flex flex-col items-center p-2">
+            <i class="fas fa-home nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">首页</span>
+        </a>
+        <a href="#" class="flex flex-col items-center p-2">
+            <i class="fas fa-chart-pie nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">统计</span>
+        </a>
+        <div class="relative flex justify-center">
+            <button class="add-button">
+                <i class="fas fa-plus"></i>
+            </button>
+        </div>
+        <a href="#" class="flex flex-col items-center p-2">
+            <i class="fas fa-exchange-alt nav-icon active"></i>
+            <span class="text-xs mt-1 text-blue-500">交易</span>
+        </a>
+        <a href="#" class="flex flex-col items-center p-2">
+            <i class="fas fa-cog nav-icon"></i>
+            <span class="text-xs mt-1 text-gray-500">设置</span>
+        </a>
+    </nav>
+
+    <script>
+        // 深色模式切换
+        const prefersDarkScheme = window.matchMedia('(prefers-color-scheme: dark)');
+        
+        if (prefersDarkScheme.matches) {
+            document.body.classList.add('dark-mode');
+        }
+        
+        // 标签切换
+        const tabs = document.querySelectorAll('.flex-1');
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => {
+                    t.classList.remove('tab-active');
+                    t.classList.add('text-gray-500');
+                });
+                tab.classList.add('tab-active');
+                tab.classList.remove('text-gray-500');
+            });
+        });
+    </script>
+</body>
+</html>
+<xaiArtifact artifact_id="550e8400-e29b-41d4-a716-446655440001" title="记账应用交易记录页" contentType="text/html"></xaiArtifact>
